@@ -132,3 +132,30 @@ WHERE TIME(fechahora)> '12:00' AND pID IN ( SELECT distinct pID
 ```
 
 El resultado es: ![Imagen](./IMAGENES%20RESULTADOS/3_B.png)
+
+### c. Obtener para cada centro de salud, el número de asistencias atendidas en viernes a pacientes de género femenino (valor “M”).
+
+La consulta en SQL será:
+
+```SQL
+
+-- Solo salen los centros que recibieron visitas
+SELECT nomcentro, count(*) as atenciones
+FROM tablaunica as t
+WHERE dayofweek(t.fechahora)='6' AND t.genero = 'M'
+GROUP BY (nomcentro);
+
+-- Para que salgan los valores nulos 
+SELECT C.nomcentro AS Centro_Salud, COALESCE(Total_Asistencias_Femeninas_Viernes, 0) AS Asistencias_Femeninas_Viernes
+FROM (SELECT nomcentro, COUNT(*) AS Total_Asistencias_Femeninas_Viernes
+      FROM tablaunica as t
+      WHERE dayofweek(t.fechahora)='6' AND genero = 'M'
+      GROUP BY nomcentro) AS AsistenciasPorCentro
+RIGHT JOIN (SELECT DISTINCT nomcentro FROM tablaunica) AS C ON AsistenciasPorCentro.nomcentro = C.nomcentro;
+
+```
+
+> Explicación: En la segunda consulta lo que se hace es coger la consulta anterior y transformarla como si fuera una tabla, seguidamente, se hace un right join con una tabla con todos los nombres de centros para que aunque haya valores null en nuestra primera consulta, se conserven y finalmente con la función COALESCE() hacemos que los valores NULL se muestre 0.
+
+Resultados: ![Imagen](./IMAGENES%20RESULTADOS/3_C_1.png) ![Imagen](./IMAGENES%20RESULTADOS/3_C_2.png)
+

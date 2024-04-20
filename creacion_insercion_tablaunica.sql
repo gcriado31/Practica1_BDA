@@ -79,8 +79,22 @@ WHERE TIME(fechahora)> '12:00' AND pID IN ( SELECT distinct pID
 											FROM tablaunica as t
                                             WHERE t.localidadP =  'Sagrillas' OR t.localidadP = 'Peñafría');
 
+-- Consulta c
+
+-- Solo salen los centros que recibieron visitas
+SELECT nomcentro, count(*) as atenciones
+FROM tablaunica as t
+WHERE dayofweek(t.fechahora)='6' AND t.genero = 'M'
+GROUP BY (nomcentro);
+
+-- Para que salgan los valores nulos 
+SELECT C.nomcentro AS Centro_Salud, COALESCE(Total_Asistencias_Femeninas_Viernes, 0) AS Asistencias_Femeninas_Viernes
+FROM (SELECT nomcentro, COUNT(*) AS Total_Asistencias_Femeninas_Viernes
+      FROM tablaunica as t
+      WHERE dayofweek(t.fechahora)='6' AND genero = 'M'
+      GROUP BY nomcentro) AS AsistenciasPorCentro
+RIGHT JOIN (SELECT DISTINCT nomcentro FROM tablaunica) AS C ON AsistenciasPorCentro.nomcentro = C.nomcentro;
 
 
 
-                                        
-                                 
+
