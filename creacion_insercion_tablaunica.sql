@@ -66,9 +66,20 @@ where t.area ='Quirúrgica' AND t.pID IN (SELECT distinct pID
 										FROM tablaunica as t
 										WHERE t.provinciaC <> t.provinciaP);
 
-SELECT count(distinct pID)
+-- Esta está bien
+
+SELECT count(distinct pID) as numPacientesDesplazados
 FROM tablaunica as t
 WHERE t.provinciaC <> t.provinciaP AND  t.area ='Quirúrgica';
+
+-- Consulta b
+SELECT cID, nomcentro,provinciaC, fechahora
+FROM tablaunica as t
+WHERE TIME(fechahora)> '12:00' AND pID IN ( SELECT distinct pID
+											FROM tablaunica as t
+                                            WHERE t.localidadP =  'Sagrillas' OR t.localidadP = 'Peñafría');
+
+
 
 
                                         

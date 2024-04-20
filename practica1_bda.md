@@ -114,7 +114,21 @@ WHERE t.provinciaC <> t.provinciaP AND  t.area ='Quirúrgica';
 
 ```
 
-El resultado es: 1
+El resultado es:
 ![Imagen](./IMAGENES%20RESULTADOS/3_A.png)
 
+### b. Obtener el centro y su provincia para aquellos centros que hayan atendido tanto a pacientes de Sagrillas como de Peñafría a partir de las 12:00.
 
+El código en SQL será:
+
+```SQL
+
+SELECT cID, nomcentro,provinciaC, fechahora
+FROM tablaunica as t
+WHERE TIME(fechahora)> '12:00' AND pID IN ( SELECT distinct pID
+											                      FROM tablaunica as t
+                                            WHERE t.localidadP =  'Sagrillas' OR t.localidadP = 'Peñafría');
+
+```
+
+El resultado es: ![Imagen](./IMAGENES%20RESULTADOS/3_B.png)
