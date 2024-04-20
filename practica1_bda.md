@@ -82,22 +82,39 @@ Se establecen las claves en SQL tal que
 
 ```SQL
 
-ALTER TABLE tablaunica ADD PRIMARY KEY (fechahora,mID); -- Para la clave primaria 
+ALTER TABLE tablaunica ADD PRIMARY KEY (fechahora,mID); -- Para la clave primaria
 ALTER TABLE tablaunica ADD UNIQUE (fechahora,pID); -- Para la clave secundaria
 
 ```
 
 Para finalizar los atributos quedan tal que:
 
-- <font color='Darkblue'><strong>Atributos principales (P) :</strong></font>: (H, F, M, P)
-- <font color='Darkblue'><strong>Atributos no principales (Q) :</strong></font>: (O,S,C,A,D,J,K,B,I,G,E,L,N)
+- <font color='Darkblue'><strong>Atributos principales (P) :</strong></font> (H, F, M, P)
+- <font color='Darkblue'><strong>Atributos no principales (Q) :</strong></font> (O,S,C,A,D,J,K,B,I,G,E,L,N)
 
-### Nivel de normalización 
+### Nivel de normalización
 
 Habiendo calculado las claves, podemos determinar el nivel de normalización.
 
 El esquema está en 1FN ya que hay atributos no principales que dependen de un subconjunto de la clave. Como por ejemplo P->I.
 
+---
 
+## Resolver en SQL las siguientes consultas
+
+### a. Obtener el número de pacientes que han sido atendidos en centros de salud de una provincia diferente a la suya en el área Quirúrgica.
+
+El código en SQL será:
+
+```SQL
+
+SELECT count(distinct pID)
+FROM tablaunica as t
+WHERE t.provinciaC <> t.provinciaP AND  t.area ='Quirúrgica';
+
+```
+
+El resultado es: 1
+![Imagen](./IMAGENES%20RESULTADOS/3_A.png)
 
 

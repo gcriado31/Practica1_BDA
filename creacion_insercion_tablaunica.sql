@@ -56,4 +56,20 @@ VALUES
 ALTER TABLE tablaunica ADD PRIMARY KEY (fechahora,mID); -- Para la clave primaria 
 ALTER TABLE tablaunica ADD UNIQUE (fechahora,pID); -- Para la clave secundaria
 
+-- Consulta a 
 
+-- Esta consulta está mal porque coge los pID en la subconsulta de todas las áreas, con lo cual puede haber gente que haya ido
+-- en otras áreas a diferentes provinvias pero en Quirúrgica no y que se cuenten en el resultado cuando no es así.
+SELECT count(distinct pID)
+FROM tablaunica as t
+where t.area ='Quirúrgica' AND t.pID IN (SELECT distinct pID 
+										FROM tablaunica as t
+										WHERE t.provinciaC <> t.provinciaP);
+
+SELECT count(distinct pID)
+FROM tablaunica as t
+WHERE t.provinciaC <> t.provinciaP AND  t.area ='Quirúrgica';
+
+
+                                        
+                                 
