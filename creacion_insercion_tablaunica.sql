@@ -53,4 +53,7 @@ VALUES
 (50354,'Armando Casas','H',70,'975000002, 600000003','Peñafría','Soria',8,'Parquesol','Cantaloa','Segovia','2024-01-18 16:00','Vértigos','Medicina general','Clínica',55,'Curro Mucho'),
 (6803298,'Armando Bronca','H',24,'975000005','Peñafría','Soria',5,'Vallesol','Metrópolis','Madrid','2024-01-18 16:00','Fractura fémur','Cirugía ósea','Quirúrgica',575,'Ana Tomía');
 
+ALTER TABLE tablaunica ADD PRIMARY KEY (fechahora,mID); -- Para la clave primaria 
+ALTER TABLE tablaunica ADD UNIQUE (fechahora,pID); -- Para la clave secundaria
+
 
