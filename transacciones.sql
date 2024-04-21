@@ -25,3 +25,29 @@ VALUES (15345678, 'Elga Tito',null,null,'600000012', 'Puenteviejo', 'Madrid', 5,
 ROLLBACK;
 
 # MODIFICACIÓN DE DATOS  ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-- Transacción a
+START TRANSACTION;
+UPDATE tablaunica
+SET edad = 46
+WHERE nompaciente='Dolores Fuertes';
+ROLLBACK;
+
+-- Transacción b 
+START TRANSACTION ;
+UPDATE tablaunica
+SET nomcentro= 'Vallesol 2', localidadC='Datapolis', provinciaC='Madrid', cID=19
+WHERE cID=5 AND date(fechahora)>='2024-01-12';
+ROLLBACK;
+
+-- Transacción c
+START TRANSACTION;
+DELETE FROM tablaunica
+WHERE nompaciente='Armando Bronca' AND fechahora='2024-01-18 16:00';
+ROLLBACK;
+
+-- Transaccion d
+START TRANSACTION;
+DELETE FROM tablaunica
+WHERE nompaciente='Soly Luna' AND fechahora='2024-01-15 12:30';
+ROLLBACK;
+

@@ -217,3 +217,64 @@ ROLLBACK;
 **TEORICAMENTE**: No debe de dar error ya que género y edad que son los atributos a null no son parte de la clave principal.
 
 **PRÁCTICA**: ![Imagen](./IMAGENES%20RESULTADOS/4_D.png)
+
+---
+
+## Transaciones y anomalías de modificación
+
+### a. Modificar la edad de la paciente “Dolores Fuertes” a 46 años
+
+Transacción en SQL:
+
+```SQL
+START TRANSACTION;
+UPDATE tablaunica
+SET edad = 46
+WHERE nompaciente='Dolores Fuertes';
+ROLLBACK;
+```
+
+**TEORICAMENTE**: No debe de dar error ya que no se han tocado parte de la clave.
+
+**PRÁCTICA**: ![Imagen](./IMAGENES%20RESULTADOS/5_A.png)
+
+### b. A partir del 12 de enero de 2024 el centro Vallesol ha cambiado de nombre y de localidad, pasándose a llamar “Vallesol 2” en la localidad de “Datapolis” de Madrid con código de centro 19
+
+Transacción en SQL:
+
+```SQL
+START TRANSACTION ;
+UPDATE tablaunica
+SET nomcentro= 'Vallesol 2', localidadC='Datapolis', provinciaC='Madrid', cID=19
+WHERE cID=5 AND date(fechahora)>='2024-01-12';
+ROLLBACK;
+```
+
+**TEORICAMENTE**: No debe de dar error.
+
+**PRÁCTICA**: ![Imagen](./IMAGENES%20RESULTADOS/5_B.png)
+
+### c. Debido a un error, se debe eliminar la asistencia al paciente “Armando Bronca” realizada el día 18 de enero de 2024 a las 16:00 horas, eliminando los datos de dicha asistencia
+
+```SQL
+START TRANSACTION;
+DELETE FROM tablaunica
+WHERE nompaciente='Armando Bronca' AND fechahora='2024-01-18 16:00';
+ROLLBACK;
+```
+**TEORICAMENTE**: No debe de dar error ya que estamos eliminando toda la clave.
+
+**PRÁCTICA**: ![Imagen](./IMAGENES%20RESULTADOS/5_C.png)
+
+### d. Eliminar la asistencia de la paciente “Soly Luna” del día 2024-01-15 a las 12:30. Indica si se produce algún tipo de anomalía o perdida de datos
+
+```SQL
+START TRANSACTION;
+DELETE FROM tablaunica
+WHERE nompaciente='Soly Luna' AND fechahora='2024-01-15 12:30';
+ROLLBACK;
+```
+**TEORICAMENTE**: No debe de dar error ya que estamos eliminando toda la clave.
+
+**PRÁCTICA**: ![Imagen](./IMAGENES%20RESULTADOS/5_D.png)
+
